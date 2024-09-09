@@ -1,0 +1,75 @@
+@font-face {
+  font-family: 'Morage';
+  src: url('../fuentes/AnyConv.com__Morage\ DEMO.woff') format('woff'),
+    url('../fuentes/AnyConv.com__Morage\ DEMO.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  margin: 0;
+}
+.paginaInicio,
+.paginaFinal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../image/basic.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+h1 {
+  font-family: 'Morage';
+  font-size: 150px;
+  color: rgb(126, 90, 160);
+}
+
+img {
+  width: 300px;
+  border-radius: 50%;
+}
+.corazon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 50px;
+}
+.instruciones {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+}
+.btn-empezar {
+  width: 150px;
+  padding: 50px 30px;
+  border-radius: 40%;
+}
+.puntaciones {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.contenedorFinal {
+  border: 1px solid black;
+  width: 500px;
+  height: 300px;
+  margin-bottom: 20px;
+}
+.paginaGame {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.carretera {
+  width: 100vw;
+  height: 50%;
+  background-image: url('../image/83148953-vista-desde-arriba-del-camino-de-hormigón-asfáltico-con-marcas-de-línea-de-carretera-para-el-fondo.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
