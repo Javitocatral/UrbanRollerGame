@@ -15,6 +15,8 @@ class Roller {
 
     // 2. ajustamos sus dimensiones y posiciones
     this.node.style.width = `${this.w}px`
+
+    this.node.style.width = `${this.w}px`
     this.node.style.height = `${this.h}px`
     this.node.style.position = 'absolute' // nos permite ajuste el top y el left y posicionarlo en relación a la caja de juego.
     this.node.style.top = `${this.y}px`

@@ -15,6 +15,11 @@ const carreteraFondo = {
   h: 100,
   velocidad: 4,
 }
+let roller = null
+let obstaculos = []
+let frecuenciaOstaculo = 1500
+let obastculoIntervalIn = null
+let gameIntervalId = null
 
 //Mover la imgen de fondo
 //hacer el loop unfinito
@@ -26,7 +31,13 @@ const carreteraFondo = {
 function gameStart() {
   roller = new Roller()
   console.log(roller)
-  loop()
+  gameIntervalId = setInterval(() => {
+    loop()
+  }, Math.round(1000 / 60))
+  obastculoIntervalIn = setInterval(() => {
+    addObstaculos()
+  }, frecuenciaOstaculo)
+  cogerNombre()
 }
 
 const carretera = document.querySelector('.carretera')
@@ -38,9 +49,31 @@ function moverCarretera() {
   }
 }
 function loop() {
-  setInterval(() => {
-    moverCarretera()
-  }, Math.round(1000 / 60))
+  obstaculos.forEach((cadaObstaculo) => {
+    cadaObstaculo.automaticMovement()
+  })
+  detectarObstaculos()
+  detectarColisonPollitoTiube()
+  moverCarretera()
+}
+let obstaculoAlternator = 0
+let obstaculaAltura = 300
+function addObstaculos() {
+  const randomPositionY = Math.floor(
+    Math.random() * (pantallaJuego.offsetHeight * 0.35 - obstaculaAltura) +
+      pantallaJuego.offsetHeight * 0.35
+  )
+  if (obstaculoAlternator % 3 === 0) {
+    let newObstaculoArriba = new Ostaculos(randomPositionY + 170, 'arriba')
+    obstaculos.push(newObstaculoArriba)
+  } else if (obstaculoAlternator % 3 === 1) {
+    let newObstaculoAbajo = new Ostaculos(randomPositionY + 10, 'abajo')
+    obstaculos.push(newObstaculoAbajo)
+  } else {
+    let newObstaculoCentro = new Ostaculos(randomPositionY + 75, 'centro')
+    obstaculos.push(newObstaculoCentro)
+  }
+  obstaculoAlternator++
 }
 
 window.addEventListener('keydown', (event) => {
@@ -54,6 +87,62 @@ window.addEventListener('keydown', (event) => {
     roller.move('atras')
   }
 })
-pantallaJuego.addEventListener('click', () => {
+/*pantallaJuego.addEventListener('click', () => {
   roller.jump()
-})
+})*/
+function detectarObstaculos() {
+  if (obstaculos.length === 0) {
+    return //sie el arry esta vacio no se ejecuta
+  }
+  if (obstaculos[0].x + obstaculos[0].w <= 0) {
+    // tuberiasArray.splice(0, 1)
+    obstaculos[0].node.remove() // 1. Sacar del DOM
+    obstaculos.shift() // 2. Sacarlo de JS
+  }
+}
+function detectarColisonPollitoTiube() {
+  obstaculos.forEach((cadaObstaculo) => {
+    const rollerPies = roller.y + roller.h
+    const obstaculoPies = cadaObstaculo.y + cadaObstaculo.h
+
+    if (
+      rollerPies > obstaculoPies - 2 &&
+      rollerPies < obstaculoPies + 2 &&
+      roller.x + roller.w > cadaObstaculo.x &&
+      roller.x < cadaObstaculo.x + cadaObstaculo.w
+    ) {
+      gameOver()
+      console.log('cataplun')
+    }
+    if (
+      roller.y < cadaObstaculo.y &&
+      roller.x + roller.w > cadaObstaculo.x &&
+      roller.x < cadaObstaculo.x + cadaObstaculo.w
+    ) {
+      roller.node.style.zIndex = 0
+    } else if (
+      roller.y > cadaObstaculo.y &&
+      roller.x + roller.w > cadaObstaculo.x &&
+      roller.x < cadaObstaculo.x + cadaObstaculo.w
+    ) {
+      roller.node.style.zIndex = 1
+    }
+  })
+}
+function gameOver() {
+  clearInterval(gameIntervalId)
+  clearInterval(obastculoIntervalIn)
+  //gameBoxNode.innerHTML = ''
+  //reiniciar
+  //pollitoObj = null
+  //tuberiasArray = []
+  pantallaJuego.style.display = 'none'
+  pantallaFinal.style.display = 'flex'
+}
+function cogerNombre() {
+  const nombreDelJugador = document.querySelector('#inputName').value
+
+  if (nombreDelJugador) {
+    console.log(nombreDelJugador)
+  }
+}

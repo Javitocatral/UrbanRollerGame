@@ -105,7 +105,7 @@ body {
 .carretera {
   width: 100vw;
   height: 100vh;
-  background-image: url('../image/fondoProvisional.png');
+  background-image: url('../image/fondo.png');
   background-repeat: repeat-x;
   background-position: center;
   background-size: cover;
@@ -120,7 +120,7 @@ h1 {
   font-weight: 300;
 }
 .text {
-  color: #ac2abd;
+  color: #ea6384;
 
   letter-spacing: 0.1em;
   text-shadow: 0 -1px 0 #fff, 0 1px 0 #49127c, 0 2px 0 #591283, 0 3px 0 #5d0f9c,
@@ -128,4 +128,11 @@ h1 {
     0 8px 0 #2d0658, 0 9px 0 #310761, 0 10px 0 #2a0658, 0 11px 0 #2c055f,
     0 12px 0 #2f054b, 0 13px 0 #230438, 0 14px 0 #1e0335, 0 15px 0 #1b022c,
     0 22px 30px rgba(13, 1, 24, 0.9);
+}
+.input input {
+  padding: 20px;
+  border-radius: 25px;
+}
+.input label {
+  font-size: 25px;
 }
