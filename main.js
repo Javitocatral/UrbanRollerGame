@@ -14,6 +14,8 @@ btnTerminaar.addEventListener('click', () => {
   pantallaFinal.style.display = 'none'
   mySong.pause()
   mySong.currentTime = 0
+  puntuarElemento.innerText = `Puntos: 0`
+  puntos = 0
 })
 
 const carreteraFondo = {
@@ -39,6 +41,7 @@ let gameIntervalId = null
 
 function gameStart() {
   roller = new Roller()
+  roller.colisiones = 0
 
   gameIntervalId = setInterval(() => {
     loop()
@@ -47,7 +50,6 @@ function gameStart() {
     addObstaculos()
   }, frecuenciaOstaculo)
 
-  actualizarPuntosEnPantalla()
   cogerNombre()
 }
 
@@ -63,9 +65,11 @@ function loop() {
   obstaculos.forEach((cadaObstaculo) => {
     cadaObstaculo.automaticMovement()
   })
-  detectorColisionRollerObjetos()
-  detectarObstaculos()
   moverCarretera()
+  colisonGameOver()
+  detectarCruces()
+  detectarCrucePuntuar()
+  detectarObstaculos()
 }
 let obstaculoAlternator = 0
 let obstaculaAltura = 250
@@ -75,27 +79,9 @@ function addObstaculos() {
       carretera.offsetHeight * 0.4
   )
   const espaciadoAdicional = Math.floor(Math.random() * 100)
-  const tipoSeleccionado = Ostaculos.seleccionarTipo()
-  const imagenSeleccionada = Ostaculos.seleccionarImagen()
-  if (tipoSeleccionado === 'arriba') {
-    let newObstaculoArriba = new Ostaculos(
-      randomPositionY + 170 + espaciadoAdicional,
-      imagenSeleccionada
-    )
-    obstaculos.push(newObstaculoArriba)
-  } else if (obstaculoAlternator === 'abajo') {
-    let newObstaculoAbajo = new Ostaculos(
-      randomPositionY + 10 + espaciadoAdicional,
-      imagenSeleccionada
-    )
-    obstaculos.push(newObstaculoAbajo)
-  } else {
-    let newObstaculoCentro = new Ostaculos(
-      randomPositionY + 75 + espaciadoAdicional,
-      imagenSeleccionada
-    )
-    obstaculos.push(newObstaculoCentro)
-  }
+
+  let nuevoObastaculo = new Ostaculos(randomPositionY + espaciadoAdicional)
+  obstaculos.push(nuevoObastaculo)
   obstaculoAlternator++
 }
 
@@ -122,18 +108,32 @@ function detectarObstaculos() {
     }
   }
 }
-function detectorColisionRollerObjetos() {
+
+function detectarCrucePuntuar() {
   obstaculos.forEach((cadaObstaculo) => {
-    // El 0.3 es la parte frontal y el 0.7 es la parte trasera  el .0.9 es la parte inferios se refiere a los porcentajes
     if (
-      roller.x + roller.w * 0.3 < cadaObstaculo.x + cadaObstaculo.w * 0.7 &&
-      roller.x + roller.w * 0.7 > cadaObstaculo.x + cadaObstaculo.w * 0.3 &&
-      roller.y + roller.h * 0.9 < cadaObstaculo.y + cadaObstaculo.h &&
-      roller.y + roller.h > cadaObstaculo.y + cadaObstaculo.h * 0.9
+      roller.y < cadaObstaculo.y &&
+      roller.x + roller.w > cadaObstaculo.x &&
+      roller.x < cadaObstaculo.x + cadaObstaculo.w &&
+      !cadaObstaculo.yaPuntuo
     ) {
-      gameOver()
-      console.log('cataplun')
+      roller.puntuar()
+      actualizarPuntosEnPantalla()
+      cadaObstaculo.yaPuntuo = true
+    } else if (
+      roller.y > cadaObstaculo.y &&
+      roller.x + roller.w > cadaObstaculo.x &&
+      roller.x < cadaObstaculo.x + cadaObstaculo.w &&
+      !cadaObstaculo.yaPuntuo
+    ) {
+      roller.puntuar()
+      actualizarPuntosEnPantalla()
+      cadaObstaculo.yaPuntuo = true
     }
+  })
+}
+function detectarCruces() {
+  obstaculos.forEach((cadaObstaculo) => {
     if (
       roller.y < cadaObstaculo.y &&
       roller.x + roller.w > cadaObstaculo.x &&
@@ -146,6 +146,32 @@ function detectorColisionRollerObjetos() {
       roller.x < cadaObstaculo.x + cadaObstaculo.w
     ) {
       roller.node.style.zIndex = 1
+    }
+  })
+}
+const vidas = document.querySelectorAll('.vidas img')
+function colisonGameOver() {
+  obstaculos.forEach((cadaObstaculo, index) => {
+    // El 0.3 es la parte frontal y el 0.7 es la parte trasera  el .0.9 es la parte inferios se refiere a los porcentajes
+    if (
+      roller.x + roller.w * 0.3 < cadaObstaculo.x + cadaObstaculo.w * 0.7 &&
+      roller.x + roller.w * 0.7 > cadaObstaculo.x + cadaObstaculo.w * 0.3 &&
+      roller.y + roller.h * 0.9 < cadaObstaculo.y + cadaObstaculo.h &&
+      roller.y + roller.h > cadaObstaculo.y + cadaObstaculo.h * 0.9
+    ) {
+      roller.colisiones += 1
+      cambiarImagenJugador()
+      obstaculos.splice(index, 1)
+      cadaObstaculo.node.remove()
+      console.log(roller.colisiones)
+      if (roller.colisiones <= 3) {
+        vidas[roller.colisiones - 1].remove()
+      }
+
+      if (roller.colisiones >= 3) {
+        gameOver()
+        console.log('cataplun')
+      }
     }
   })
 }
@@ -179,9 +205,18 @@ playMusicBtn.addEventListener('click', function () {
   }
 })
 
+const puntuarElemento = document.querySelector('.puntos')
 const actualizarPuntosEnPantalla = () => {
-  const puntuarElemento = document.querySelector('.puntos')
   if (puntuarElemento) {
     puntuarElemento.innerText = `Puntos:${roller.puntuar()}`
   }
+}
+function cambiarImagenJugador() {
+  const imagenOriginal = roller.node.src
+  roller.node.src = './image/crahs.png'
+  roller.node.classList.add('imagenaumenta')
+  setTimeout(() => {
+    roller.node.src = './image/roller.png'
+    roller.node.classList.remove('imagenaumenta')
+  }, 500)
 }

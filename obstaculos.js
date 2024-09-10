@@ -1,20 +1,14 @@
 class Ostaculos {
-  static imagenesObstaculos = [
-    './image/señora.png',
-    './image/perrito.png',
-    './image/niño.png',
-    './image/caca.png',
-  ]
-
-  constructor(positionY, imageSrc) {
+  constructor(positionY) {
     this.x = carretera.offsetWidth
-    this.y = positionY
+    this.y = positionY + this.seleccionarTipo()
     this.h = 250
     this.w = 100
     this.speed = 2
+    this.yaPuntuo = false
 
     this.node = document.createElement('img')
-    this.node.src = imageSrc
+    this.node.src = this.seleccionarImagen()
 
     carretera.append(this.node)
 
@@ -24,13 +18,19 @@ class Ostaculos {
     this.node.style.top = `${this.y}px`
     this.node.style.left = `${this.x}px`
   }
-  static seleccionarTipo() {
-    const tiposObstaculos = ['arriba', 'abajo', 'centro']
+  seleccionarTipo() {
+    const tiposObstaculos = [170, 75, 10]
     return tiposObstaculos[Math.floor(Math.random() * tiposObstaculos.length)]
   }
-  static seleccionarImagen() {
-    return Ostaculos.imagenesObstaculos[
-      Math.floor(Math.random() * Ostaculos.imagenesObstaculos.length)
+  seleccionarImagen() {
+    const imagenesObstaculos = [
+      './image/señora.png',
+      './image/perrito.png',
+      './image/niño.png',
+      './image/caca.png',
+    ]
+    return imagenesObstaculos[
+      Math.floor(Math.random() * imagenesObstaculos.length)
     ]
   }
   automaticMovement() {
