@@ -116,18 +116,17 @@ body {
 h1 {
   font-family: 'Morage';
   font-size: 7em;
-
   font-weight: 300;
+  margin: 10px 0 0;
 }
 .text {
   color: #ea6384;
-
   letter-spacing: 0.1em;
-  text-shadow: 0 -1px 0 #fff, 0 1px 0 #49127c, 0 2px 0 #591283, 0 3px 0 #5d0f9c,
-    0 4px 0 #630caa, 0 5px 0 #480b8d, 0 6px 0 #630e9c, 0 7px 0 #370863,
-    0 8px 0 #2d0658, 0 9px 0 #310761, 0 10px 0 #2a0658, 0 11px 0 #2c055f,
-    0 12px 0 #2f054b, 0 13px 0 #230438, 0 14px 0 #1e0335, 0 15px 0 #1b022c,
-    0 22px 30px rgba(13, 1, 24, 0.9);
+  text-shadow: 0 -1px 0 #fff, 0 1px 0 #4873ec, 0 2px 0 #4269da, 0 3px 0 #3c5fc9,
+    0 4px 0 #3655b7, 0 5px 0 #304ca6, 0 6px 0 #2a4294, 0 7px 0 #243882,
+    0 8px 0 #1f2e71, 0 9px 0 #19245f, 0 10px 0 #0d103c, 0 11px 0 #07062a,
+    0 12px 0 #030319, 0 13px 0 #010109, 0 14px 0 #1e0335, 0 15px 0 #1b022c,
+    0 22px 30px #000000;
 }
 .input input {
   padding: 20px;
@@ -135,4 +134,22 @@ h1 {
 }
 .input label {
   font-size: 25px;
+}
+#playSong {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 15px 25px;
+  background-color: #fdf28d;
+  color: #679396;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.puntos {
+  background-color: #1948cb;
+  color: white;
+  padding: 20px;
+  z-index: 1;
 }
