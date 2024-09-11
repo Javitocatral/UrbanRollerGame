@@ -3,10 +3,14 @@ const pantallaInicio = document.querySelector('.paginaInicio')
 const pantallaFinal = document.querySelector('.paginaFinal')
 const pantallaJuego = document.querySelector('.paginaGame')
 const btnTerminaar = document.querySelector('.btn-reempezar')
-
+const mySong = document.getElementById('mySong')
 btnEmpezar.addEventListener('click', () => {
   pantallaInicio.style.display = 'none'
   pantallaJuego.style.display = 'flex'
+
+  mySong.play()
+  mySong.volume = 0.05
+
   gameStart()
 })
 btnTerminaar.addEventListener('click', () => {
@@ -23,7 +27,7 @@ const carreteraFondo = {
   y: 0,
   w: 100,
   h: 100,
-  velocidad: 4,
+  velocidad: 2,
 }
 let roller = null
 let obstaculos = []
@@ -43,6 +47,7 @@ function gameStart() {
   roller = new Roller()
   roller.colisiones = 0
 
+  addVidas()
   gameIntervalId = setInterval(() => {
     loop()
   }, Math.round(1000 / 60))
@@ -70,6 +75,7 @@ function loop() {
   detectarCruces()
   detectarCrucePuntuar()
   detectarObstaculos()
+  detectionBorderLimit()
 }
 let obstaculoAlternator = 0
 let obstaculaAltura = 250
@@ -87,15 +93,27 @@ function addObstaculos() {
 
 window.addEventListener('keydown', (event) => {
   if (event.key === 's') {
-    roller.move('up')
-  } else if (event.key === 'w') {
     roller.move('down')
+  } else if (event.key === 'w') {
+    roller.move('up')
   } else if (event.key === 'd') {
     roller.move('recto')
   } else if (event.key === 'a') {
     roller.move('atras')
   }
 })
+function detectionBorderLimit() {
+  if (roller.y >= pantallaJuego.offsetHeight - roller.h) {
+    roller.limitdown = true
+  } else {
+    roller.limitdown = false
+  }
+  if (roller.y <= pantallaJuego.offsetHeight * 0.3) {
+    roller.limitUp = true
+  } else {
+    roller.limitUp = false
+  }
+}
 
 function detectarObstaculos() {
   if (obstaculos.length === 0) {
@@ -149,10 +167,11 @@ function detectarCruces() {
     }
   })
 }
-const vidas = document.querySelectorAll('.vidas img')
+const collisionSound = new Audio('./audios/grito.wav')
 function colisonGameOver() {
   obstaculos.forEach((cadaObstaculo, index) => {
     // El 0.3 es la parte frontal y el 0.7 es la parte trasera  el .0.9 es la parte inferios se refiere a los porcentajes
+    console.log(vidas)
     if (
       roller.x + roller.w * 0.3 < cadaObstaculo.x + cadaObstaculo.w * 0.7 &&
       roller.x + roller.w * 0.7 > cadaObstaculo.x + cadaObstaculo.w * 0.3 &&
@@ -164,8 +183,10 @@ function colisonGameOver() {
       obstaculos.splice(index, 1)
       cadaObstaculo.node.remove()
       console.log(roller.colisiones)
+
+      collisionSound.play()
       if (roller.colisiones <= 3) {
-        vidas[roller.colisiones - 1].remove()
+        arraVidas[roller.colisiones - 1].remove()
       }
 
       if (roller.colisiones >= 3) {
@@ -193,18 +214,17 @@ function cogerNombre() {
 }
 
 const playMusicBtn = document.getElementById('playSong')
-const mySong = document.getElementById('mySong')
-
 playMusicBtn.addEventListener('click', function () {
-  if (mySong.paused) {
-    mySong.play()
-    playMusicBtn.textContent = 'Pausar música'
-  } else {
+  if (!mySong.paused) {
     mySong.pause()
-    playMusicBtn.textContent = 'Reproducir música'
+    mySong.volume = 0.05
+    playMusicBtn.textContent = 'OFF'
+  } else {
+    mySong.play()
+    playMusicBtn.textContent = 'ON'
+    mySong.volume = 0.05
   }
 })
-
 const puntuarElemento = document.querySelector('.puntos')
 const actualizarPuntosEnPantalla = () => {
   if (puntuarElemento) {
@@ -212,11 +232,25 @@ const actualizarPuntosEnPantalla = () => {
   }
 }
 function cambiarImagenJugador() {
-  const imagenOriginal = roller.node.src
   roller.node.src = './image/crahs.png'
   roller.node.classList.add('imagenaumenta')
   setTimeout(() => {
-    roller.node.src = './image/roller.png'
+    roller.node.src = './image/patinadora.png'
     roller.node.classList.remove('imagenaumenta')
   }, 500)
 }
+const vidas = document.querySelector('.vidas')
+let arraVidas = []
+let vidasMax = 3
+function addVidas() {
+  vidas.innerHTML = ''
+  arraVidas = []
+  for (let i = 0; i < vidasMax; i++) {
+    const imgVida = document.createElement('img')
+    imgVida.src = './image/vidas.png'
+    imgVida.alt = 'Vida'
+    vidas.appendChild(imgVida)
+    arraVidas.push(imgVida)
+  }
+}
+addVidas()

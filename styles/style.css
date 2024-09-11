@@ -6,7 +6,7 @@
   font-style: normal;
 }
 body {
-  font-family: 'Morage';
+  font-family: 'Nerko One';
   margin: 0;
   color: #1948cb;
 }
@@ -19,6 +19,10 @@ body {
   background-image: url('../image/basic.png');
   background-size: cover;
   background-repeat: no-repeat;
+  gap: 15px;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
 }
 .paginaFinal {
   display: none;
@@ -52,7 +56,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 50px;
+  gap: 20px;
 }
 .instruciones {
   display: flex;
@@ -63,22 +67,25 @@ body {
 }
 .btn-empezar {
   width: 200px;
-  padding: 40px 30px;
+  padding: 20px;
   border-radius: 40%;
   background-color: #58e9e6;
   font-family: 'Morage';
   font-size: 30px;
   color: #4873ec;
+  border: 5px solid #fdf28d;
+  margin-bottom: 10px;
 }
 .btn-reempezar {
   font-family: 'Morage';
   width: 200px;
-  padding: 40px 30px;
+  padding: 20px;
   border-radius: 40%;
   background-color: #58e9e6;
   font-size: 30px;
   color: #4873ec;
   border-radius: 40%;
+  border: 5px solid #fdf28d;
 }
 .puntaciones {
   display: flex;
@@ -87,10 +94,13 @@ body {
   align-items: center;
 }
 .contenedorFinal {
-  border: 1px solid black;
+  border: 5px solid #fdf28d;
   width: 500px;
-  height: 300px;
+  height: 50px;
   margin-bottom: 20px;
+  border-radius: 20px;
+  background-color: #a6bbd0;
+  margin-bottom: 100px;
 }
 .paginaGame {
   background-image: url('../image/basic.png');
@@ -105,7 +115,7 @@ body {
 .carretera {
   width: 100vw;
   height: 100vh;
-  background-image: url('../image/fondo.png');
+  background-image: url('../image/fondo1.png');
   background-repeat: repeat-x;
   background-position: center;
   background-size: cover;
@@ -129,8 +139,14 @@ h1 {
     0 22px 30px #000000;
 }
 .input input {
-  padding: 20px;
+  padding: 10px;
   border-radius: 25px;
+  border: 5px solid #fdf28d;
+  font-family: 'Nerko One';
+  font-size: 20px;
+  width: 90px;
+  background-color: #a6bbd0;
+  color: #1948cb;
 }
 .input label {
   font-size: 25px;
@@ -138,14 +154,17 @@ h1 {
 #playSong {
   position: fixed;
   top: 20px;
-  left: 20px;
-  padding: 15px 25px;
-  background-color: #fdf28d;
-  color: #679396;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  left: 90%;
   font-size: 16px;
+  padding: 10px;
+  border-radius: 25px;
+  border: 5px solid #fdf28d;
+  font-family: 'Nerko One';
+  font-size: 20px;
+  width: 90px;
+  background-color: #a6bbd0;
+  color: #1948cb;
+  z-index: 1;
 }
 .puntos {
   background-color: #5f77b9;
@@ -155,8 +174,8 @@ h1 {
   z-index: 1;
   position: absolute;
   top: 20px;
-  left: 100px;
-  font-size: 15px;
+  left: 130px;
+  font-size: 20px;
 }
 .imagenaumenta {
   transform: scale(1.5);
@@ -173,4 +192,41 @@ h1 {
 .vidas img {
   max-width: 50px;
   height: auto;
+}
+.immageEnd {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 200px;
+  border-radius: 67%;
+  background-color: #a6bbd0;
+  border: 5px solid #fdf28d;
+}
+p {
+  margin: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+h2 {
+  font-size: 50px;
+}
+.instruciones img {
+  width: 100px;
+  height: auto;
+}
+.teclado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#mySong {
+  padding: 10px;
+  border-radius: 25px;
+  border: 5px solid #fdf28d;
+  font-family: 'Nerko One';
+  font-size: 20px;
+  width: 90px;
+  background-color: #a6bbd0;
+  color: #1948cb;
 }

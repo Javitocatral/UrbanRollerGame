@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nerko+One&family=Roboto:ital,wght@0,300;0,700;1,100;1,900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <button id="playSong">encender</button>
+    <button id="playSong">ON</button>
     <div class="paginaInicio">
       <div class="title">
         <h1 class="text" contenteditable>Urban Roller</h1>
@@ -25,7 +31,13 @@
             El juego consiste en envitar los obstacualos que tiene un roller
             cuando sale por la ciudad viejas, animales, chavales
           </p>
-          <p>Controles: recto C,atras Z , arriba S abajo X</p>
+          <div class="teclado">
+            <img
+              src="./image/png-transparent-keyboard-paper-cut-gaming-keyboard-wasd-arrow-key-thumbnail-removebg-preview (1).png"
+              alt=""
+            />
+            <p>Controles: recto C,atras Z , arriba S abajo X</p>
+          </div>
           <p>
             tienes tres vidas el juego ira aumentado su dificulta segun tiempo y
             niveles suerte y no mueras atropellado
@@ -36,12 +48,8 @@
     </div>
 
     <div class="paginaGame">
-      <h4 class="puntos">Puntos:0</h4>
-      <div class="vidas">
-        <img src="./image/vidas.png" alt="" />
-        <img src="./image/vidas.png" alt="" />
-        <img src="./image/vidas.png" alt="" />
-      </div>
+      <h4 class="puntos">Puntos: 0</h4>
+      <div class="vidas"></div>
       <div class="carretera"></div>
     </div>
     <div class="paginaFinal">
@@ -49,21 +57,14 @@
         <h1 class="text">GAME OVER</h1>
       </div>
       <div class="immageEnd">
-        <img
-          class="rebote"
-          src="./image/la-mujer-joven-en-parecer-de-tierra-sorprendida-después-de-descubrir-que-el-patinaje-sobre-ruedas-es-un-tema-resbaladizo-todas-52012631 (1).png"
-          alt=""
-        />
+        <img class="rebote" src="./image/GameOver.png" alt="" />
       </div>
       <div>
         <button class="btn-reempezar">Cuando quieras</button>
       </div>
 
-      <div>
-        <p>MENSAJE!!!</p>
-      </div>
       <div class="puntaciones">
-        <h3>Mejors puntaciones</h3>
+        <h2>Menudo paquete estas hecho!!</h2>
         <div class="contenedorFinal"></div>
       </div>
     </div>

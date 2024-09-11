@@ -3,7 +3,7 @@ class Ostaculos {
     this.x = carretera.offsetWidth
     this.y = positionY + this.seleccionarTipo()
     this.h = 250
-    this.w = 100
+    this.w = 150
     this.speed = 2
     this.yaPuntuo = false
 
@@ -24,9 +24,9 @@ class Ostaculos {
   }
   seleccionarImagen() {
     const imagenesObstaculos = [
-      './image/señora.png',
-      './image/perrito.png',
-      './image/niño.png',
+      './image/vieja.png',
+      './image/perro.png',
+      './image/nino.png',
       './image/caca.png',
     ]
     return imagenesObstaculos[

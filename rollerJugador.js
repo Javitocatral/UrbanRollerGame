@@ -6,13 +6,14 @@ class Roller {
     this.h = 300
     this.w = 200
     this.velocidad = 5
-    this.jumpSpeed = 30
     this.colisiones = 0
+    this.limitUp = false
+    this.limitdown = false
     // al crear el pollito:
 
     // 1. añadir el pollito al DOM
     this.node = document.createElement('img')
-    this.node.src = './image/roller.png'
+    this.node.src = './image/patinadora.png'
     carretera.append(this.node)
 
     // 2. ajustamos sus dimensiones y posiciones
@@ -25,10 +26,10 @@ class Roller {
     this.node.style.left = `${this.x}px`
   }
   move(direction) {
-    if (direction === 'up') {
-      this.y += this.velocidad
-    } else if (direction === 'down') {
+    if (direction === 'up' && !this.limitUp) {
       this.y -= this.velocidad
+    } else if (direction === 'down' && !this.limitdown) {
+      this.y += this.velocidad
     } else if (direction === 'recto') {
       this.x += this.velocidad
     } else if (direction === 'atras') {
