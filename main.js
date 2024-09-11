@@ -19,7 +19,6 @@ btnTerminaar.addEventListener('click', () => {
   mySong.pause()
   mySong.currentTime = 0
   puntuarElemento.innerText = `Puntos: 0`
-  puntos = 0
 })
 
 const carreteraFondo = {
@@ -27,13 +26,14 @@ const carreteraFondo = {
   y: 0,
   w: 100,
   h: 100,
-  velocidad: 2,
+  velocidad: 3,
 }
 let roller = null
 let obstaculos = []
 let frecuenciaOstaculo = 1500
 let obastculoIntervalIn = null
 let gameIntervalId = null
+let recompensaArray = []
 
 //Mover la imgen de fondo
 //hacer el loop unfinito
@@ -53,6 +53,7 @@ function gameStart() {
   }, Math.round(1000 / 60))
   obastculoIntervalIn = setInterval(() => {
     addObstaculos()
+    addRecompensa()
   }, frecuenciaOstaculo)
 
   cogerNombre()
@@ -70,25 +71,39 @@ function loop() {
   obstaculos.forEach((cadaObstaculo) => {
     cadaObstaculo.automaticMovement()
   })
+  recompensaArray.forEach((cadaRecompesa) => {
+    cadaRecompesa.automaticMovement()
+  })
   moverCarretera()
   colisonGameOver()
   detectarCruces()
   detectarCrucePuntuar()
   detectarObstaculos()
   detectionBorderLimit()
+  detectarRecompensa()
 }
 let obstaculoAlternator = 0
 let obstaculaAltura = 250
+
 function addObstaculos() {
   const randomPositionY = Math.floor(
-    Math.random() * (carretera.offsetHeight * 0.2 - obstaculaAltura) +
+    Math.random() * (carretera.offsetHeight * 0.25 - obstaculaAltura) +
       carretera.offsetHeight * 0.4
   )
   const espaciadoAdicional = Math.floor(Math.random() * 100)
-
   let nuevoObastaculo = new Ostaculos(randomPositionY + espaciadoAdicional)
   obstaculos.push(nuevoObastaculo)
   obstaculoAlternator++
+}
+function addRecompensa() {
+  const randomPositionY = Math.floor(
+    Math.random() * (carretera.offsetHeight * 0.5 - obstaculaAltura) +
+      carretera.offsetHeight * 0.5
+  )
+  const espaciadoAdicional = Math.floor(Math.random() * 50)
+  let nuevaRecompensa = new Recompensa(randomPositionY + espaciadoAdicional)
+  recompensaArray.push(nuevaRecompensa)
+  console.log(recompensaArray)
 }
 
 window.addEventListener('keydown', (event) => {
@@ -167,6 +182,19 @@ function detectarCruces() {
     }
   })
 }
+function detectarRecompensa() {
+  recompensaArray.forEach((cadaRecompesa, index) => {
+    if (
+      roller.x + roller.w * 0.3 < cadaRecompesa.x + cadaRecompesa.w * 0.7 &&
+      roller.x + roller.w * 0.7 > cadaRecompesa.x + cadaRecompesa.w * 0.3 &&
+      roller.y + roller.h * 0.9 < cadaRecompesa.y + cadaRecompesa.h &&
+      roller.y + roller.h > cadaRecompesa.y + cadaRecompesa.h * 0.9
+    ) {
+      cadaRecompesa.node.remove()
+      roller.puntuar()
+    }
+  })
+}
 const collisionSound = new Audio('./audios/grito.wav')
 function colisonGameOver() {
   obstaculos.forEach((cadaObstaculo, index) => {
@@ -225,12 +253,14 @@ playMusicBtn.addEventListener('click', function () {
     mySong.volume = 0.05
   }
 })
+
 const puntuarElemento = document.querySelector('.puntos')
 const actualizarPuntosEnPantalla = () => {
   if (puntuarElemento) {
     puntuarElemento.innerText = `Puntos:${roller.puntuar()}`
   }
 }
+
 function cambiarImagenJugador() {
   roller.node.src = './image/crahs.png'
   roller.node.classList.add('imagenaumenta')

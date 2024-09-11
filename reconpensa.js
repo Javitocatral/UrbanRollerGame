@@ -1,15 +1,14 @@
-class Ostaculos {
+class Recompensa {
   constructor(positionY) {
     this.x = carretera.offsetWidth
     this.y = positionY + this.seleccionarTipo()
-    this.h = 250
-    this.w = 200
+    this.h = 50
+    this.w = 20
     this.speed = 4
     this.yaPuntuo = false
 
     this.node = document.createElement('img')
-    this.node.src = this.seleccionarImagen()
-
+    this.node.src = './image/refresco.png'
     carretera.append(this.node)
 
     this.node.style.width = `${this.w}px`
@@ -19,19 +18,8 @@ class Ostaculos {
     this.node.style.left = `${this.x}px`
   }
   seleccionarTipo() {
-    const tiposObstaculos = [170, 134, 98, 62, 26]
+    const tiposObstaculos = [152, 116, 80, 44, 8]
     return tiposObstaculos[Math.floor(Math.random() * tiposObstaculos.length)]
-  }
-  seleccionarImagen() {
-    const imagenesObstaculos = [
-      './image/vieja.png',
-      './image/perro.png',
-      './image/nino.png',
-      './image/caca.png',
-    ]
-    return imagenesObstaculos[
-      Math.floor(Math.random() * imagenesObstaculos.length)
-    ]
   }
   automaticMovement() {
     this.x -= this.speed
