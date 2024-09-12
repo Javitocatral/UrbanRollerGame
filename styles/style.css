@@ -20,8 +20,8 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   gap: 15px;
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
   position: relative;
 }
 .paginaFinal {
@@ -29,7 +29,7 @@ body {
 }
 
 .rebote {
-  width: 300px;
+  width: 250px;
   animation: rebote 2s ease infinite;
   height: auto;
 }
@@ -149,7 +149,7 @@ body {
 h1 {
   font-family: 'Morage';
   font-size: 7em;
-  font-weight: 300;
+  font-weight: 250;
   margin: 10px 0 0;
 }
 .text {
@@ -256,4 +256,33 @@ h2 {
 }
 .instruciones {
   background-color: #a6bbd0d8;
+}
+
+.patinadoraLoca {
+  width: 150px;
+  height: 200px;
+  position: absolute;
+  top: 200px;
+  left: -150px;
+  z-index: 1;
+  opacity: 0.8;
+  animation: moveRandom 5s infinite;
+}
+
+@keyframes moveRandom {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(calc(100vw - 50px), -150px);
+  }
+  50% {
+    transform: translate(calc(100vw - 500px), calc(100vh + 50px));
+  }
+  75% {
+    transform: translate(150, calc(100vh - 50px));
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
