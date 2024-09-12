@@ -35,7 +35,7 @@ const carreteraFondo = {
 }
 let roller = null
 let obstaculos = []
-let frecuenciaOstaculo = 1500
+let frecuenciaObstaculo = 1500
 let obstaculosIntervalId = null
 let gameIntervalId = null
 let recompensaArray = []
@@ -59,7 +59,7 @@ function gameStart() {
   obstaculosIntervalId = setInterval(() => {
     addObstaculos()
     addRecompensa()
-  }, frecuenciaOstaculo)
+  }, frecuenciaObstaculo)
   cogerNombre()
 }
 
@@ -111,11 +111,6 @@ function addRecompensa() {
   let nuevaRecompensa = new Recompensa(randomPositionY + espaciadoAdicional)
   recompensaArray.push(nuevaRecompensa)
 }
-console.log('empezando juego')
-console.log(nivelActual)
-console.log(carreteraFondo.velocidad)
-console.log(obstaculos)
-
 //comandos
 window.addEventListener('keydown', (event) => {
   if (event.key === 's') {
@@ -289,20 +284,21 @@ function recuperarPuntuciones() {
 }
 
 // aumentar niveles
-
 function aumentarNivel() {
   nivelActual++
   carreteraFondo.velocidad += 1
-  obstaculos.forEach((obstaculo) => {
+  let velocidadObstaculo = obstaculos.map((obstaculo) => {
     obstaculo.speed += 1
+    return obstaculo
   })
-  frecuenciaOstaculo -= 200
+  velocidadObstaculo
+  frecuenciaObstaculo -= 200
   clearInterval(obstaculosIntervalId)
 
   obstaculosIntervalId = setInterval(() => {
     addObstaculos()
     addRecompensa()
-  }, frecuenciaOstaculo)
+  }, frecuenciaObstaculo)
 }
 
 const contenedorPuntos = document.querySelector('.contenedorFinal')
@@ -388,5 +384,5 @@ function reset() {
     obstaculo.speed = 4
   })
   carreteraFondo.velocidad = 3
-  frecuenciaOstaculo = 1500
+  frecuenciaObstaculo = 1500
 }
