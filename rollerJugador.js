@@ -5,7 +5,7 @@ class Roller {
     this.y = 400
     this.h = 300
     this.w = 200
-    this.velocidad = 6
+    this.velocidad = 7
     this.colisiones = 0
     this.limitUp = false
     this.limitdown = false

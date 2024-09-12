@@ -4,6 +4,8 @@ const pantallaFinal = document.querySelector('.paginaFinal')
 const pantallaJuego = document.querySelector('.paginaGame')
 const btnTerminaar = document.querySelector('.btn-reempezar')
 const mySong = document.getElementById('mySong')
+let nivelActual = 1
+const puntosPorNivel = 20
 
 btnEmpezar.addEventListener('click', () => {
   pantallaInicio.style.display = 'none'
@@ -34,7 +36,7 @@ const carreteraFondo = {
 let roller = null
 let obstaculos = []
 let frecuenciaOstaculo = 1500
-let obastculoIntervalIn = null
+let obstaculosIntervalId = null
 let gameIntervalId = null
 let recompensaArray = []
 
@@ -54,11 +56,10 @@ function gameStart() {
   gameIntervalId = setInterval(() => {
     loop()
   }, Math.round(1000 / 60))
-  obastculoIntervalIn = setInterval(() => {
+  obstaculosIntervalId = setInterval(() => {
     addObstaculos()
     addRecompensa()
   }, frecuenciaOstaculo)
-
   cogerNombre()
 }
 
@@ -70,6 +71,7 @@ function moverCarretera() {
     carreteraFondo.y = 0
   }
 }
+
 function loop() {
   obstaculos.forEach((cadaObstaculo) => {
     cadaObstaculo.automaticMovement()
@@ -85,9 +87,11 @@ function loop() {
   detectionBorderLimit()
   detectarRecompensa()
 }
+
+//añadir obstaculos
+
 let obstaculoAlternator = 0
 let obstaculaAltura = 250
-
 function addObstaculos() {
   const randomPositionY = Math.floor(
     Math.random() * (carretera.offsetHeight * 0.25 - obstaculaAltura) +
@@ -107,7 +111,12 @@ function addRecompensa() {
   let nuevaRecompensa = new Recompensa(randomPositionY + espaciadoAdicional)
   recompensaArray.push(nuevaRecompensa)
 }
+console.log('empezando juego')
+console.log(nivelActual)
+console.log(carreteraFondo.velocidad)
+console.log(obstaculos)
 
+//comandos
 window.addEventListener('keydown', (event) => {
   if (event.key === 's') {
     roller.move('down')
@@ -119,6 +128,8 @@ window.addEventListener('keydown', (event) => {
     roller.move('atras')
   }
 })
+
+//detectar limites
 function detectionBorderLimit() {
   if (roller.y >= pantallaJuego.offsetHeight - roller.h) {
     roller.limitdown = true
@@ -134,7 +145,7 @@ function detectionBorderLimit() {
 
 function detectarObstaculos() {
   if (obstaculos.length === 0) {
-    return //sie el arry esta vacio no se ejecuta
+    return //si el array esta vacio no se ejecuta
   }
   for (let i = obstaculos.length - 1; i >= 0; i--) {
     if (obstaculos[i].x + obstaculos[i].w <= 0) {
@@ -143,20 +154,8 @@ function detectarObstaculos() {
     }
   }
 }
-let nivelActual = 1
-const puntosPorNivel = 20
-function aumentarNivel() {
-  nivelActual++
-  carreteraFondo.velocidad += 1
 
-  obstaculos.speed += 0.5
-  frecuenciaOstaculo -= 200
-  clearInterval(obastculoIntervalIn)
-  obastculoIntervalIn = setInterval(() => {
-    addObstaculos()
-    addRecompensa()
-  }, frecuenciaOstaculo)
-}
+//puntuar por cruce
 
 function detectarCrucePuntuar() {
   obstaculos.forEach((cadaObstaculo) => {
@@ -169,7 +168,7 @@ function detectarCrucePuntuar() {
       roller.puntuar(1)
       actualizarPuntosEnPantalla()
       cadaObstaculo.yaPuntuo = true
-      if (roller.puntuar(0) % puntosPorNivel === 0) {
+      if (puntos % puntosPorNivel === 0) {
         aumentarNivel()
       }
     } else if (
@@ -179,14 +178,16 @@ function detectarCrucePuntuar() {
       !cadaObstaculo.yaPuntuo
     ) {
       roller.puntuar(1)
+      console.log(puntos)
       actualizarPuntosEnPantalla()
       cadaObstaculo.yaPuntuo = true
-      if (roller.puntuar(0) % puntosPorNivel === 0) {
+      if (puntos % puntosPorNivel === 0) {
         aumentarNivel()
       }
     }
   })
 }
+//Cruces
 function detectarCruces() {
   obstaculos.forEach((cadaObstaculo) => {
     if (
@@ -204,6 +205,8 @@ function detectarCruces() {
     }
   })
 }
+
+//coger Recompensas
 function detectarRecompensa() {
   recompensaArray.forEach((cadaRecompesa) => {
     if (
@@ -220,12 +223,15 @@ function detectarRecompensa() {
     }
   })
 }
+
+//colisiones
+
 const gameOverSound = new Audio('./audios/gameover.mp3')
 const collisionSound = new Audio('./audios/grito.wav')
+
 function colisonGameOver() {
   obstaculos.forEach((cadaObstaculo, index) => {
     // El 0.3 es la parte frontal y el 0.7 es la parte trasera  el .0.9 es la parte inferios se refiere a los porcentajes
-
     if (
       roller.x + roller.w * 0.3 < cadaObstaculo.x + cadaObstaculo.w * 0.7 &&
       roller.x + roller.w * 0.7 > cadaObstaculo.x + cadaObstaculo.w * 0.3 &&
@@ -245,24 +251,69 @@ function colisonGameOver() {
 
       if (roller.colisiones >= 3) {
         gameOverSound.play()
+        gameOverSound.volume = 0.05
         gameOver()
         console.log('cataplun')
       }
     }
   })
 }
+
+// LocalStorage
+function guardarLocalStorage() {
+  let nombre = cogerNombre()
+  let puntosJugador = puntos
+
+  let nuevaPuntuacion = { nombre, puntosJugador }
+
+  let puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || []
+  puntuaciones.push(nuevaPuntuacion)
+
+  localStorage.setItem('puntuaciones', JSON.stringify(puntuaciones))
+}
+function recuperarPuntuciones() {
+  contenedorPuntos.innerHTML = ''
+  const puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || []
+
+  puntuaciones.sort((a, b) => b.puntosJugador - a.puntosJugador)
+
+  const top5 = puntuaciones.slice(0, 5)
+
+  top5.forEach((puntuacion) => {
+    const li = document.createElement('li')
+    li.textContent = `${puntuacion.nombre} .......... ${puntuacion.puntosJugador} puntos`
+    contenedorPuntos.appendChild(li)
+  })
+
+  puntos = 0
+}
+
+// aumentar niveles
+
+function aumentarNivel() {
+  nivelActual++
+  carreteraFondo.velocidad += 1
+  obstaculos.forEach((obstaculo) => {
+    obstaculo.speed += 1
+  })
+  frecuenciaOstaculo -= 200
+  clearInterval(obstaculosIntervalId)
+
+  obstaculosIntervalId = setInterval(() => {
+    addObstaculos()
+    addRecompensa()
+  }, frecuenciaOstaculo)
+}
+
 const contenedorPuntos = document.querySelector('.contenedorFinal')
 function gameOver() {
-  // puntos = roller.puntos
-  //nombreDelJugador = cogerNombre()
-  //contenedorPuntos.innerHTML = `<h5 style="margin:0">${nombreDelJugador} .............. puntos:${puntos}</h5>`
+  reset()
   clearInterval(gameIntervalId)
-  clearInterval(obastculoIntervalIn)
+  clearInterval(obstaculosIntervalId)
+
   pantallaJuego.style.display = 'none'
   pantallaFinal.style.display = 'flex'
-  carretera.innerHTML = ''
-  roller = null
-  obstaculos = []
+
   guardarLocalStorage()
   recuperarPuntuciones()
 }
@@ -306,6 +357,9 @@ function cambiarImagenJugador() {
     roller.node.classList.remove('imagenaumenta')
   }, 500)
 }
+
+// crear vidas
+
 const vidas = document.querySelector('.vidas')
 let arraVidas = []
 let vidasMax = 3
@@ -320,28 +374,19 @@ function addVidas() {
     arraVidas.push(imgVida)
   }
 }
-
 addVidas()
 
-function guardarLocalStorage() {
-  let nombre = cogerNombre()
-  let puntosJugador = puntos
-  console.log(puntosJugador)
+// resetear todo
 
-  let nuevaPuntuacion = { nombre, puntosJugador }
-  console.log('Guardando puntuación:', nuevaPuntuacion)
-  let puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || []
-  puntuaciones.push(nuevaPuntuacion)
-  localStorage.setItem('puntuaciones', JSON.stringify(puntuaciones))
-}
-function recuperarPuntuciones() {
-  contenedorPuntos.innerHTML = ''
-  const puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || []
-  puntuaciones.sort((a, b) => b.puntosJugador - a.puntosJugador)
-  const top5 = puntuaciones.slice(0, 5)
-  top5.forEach((puntuacion) => {
-    const li = document.createElement('li')
-    li.textContent = `${puntuacion.nombre} .......... ${puntuacion.puntosJugador} puntos`
-    contenedorPuntos.appendChild(li)
+function reset() {
+  carretera.innerHTML = ''
+  roller = null
+  obstaculos = []
+  recompensaArray = []
+  nivelActual = 1
+  obstaculos.forEach((obstaculo) => {
+    obstaculo.speed = 4
   })
+  carretera.velocidad = 3
+  frecuenciaOstaculo = 1500
 }

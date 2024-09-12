@@ -153,7 +153,7 @@ h1 {
   margin: 10px 0 0;
 }
 .text {
-  color: #ea6384;
+  color: #ea6385;
   letter-spacing: 0.1em;
   text-shadow: 0 -1px 0 #fff, 0 1px 0 #4873ec, 0 2px 0 #4269da, 0 3px 0 #3c5fc9,
     0 4px 0 #3655b7, 0 5px 0 #304ca6, 0 6px 0 #2a4294, 0 7px 0 #243882,
@@ -253,4 +253,7 @@ h2 {
   width: 90px;
   background-color: #a6bbd0;
   color: #1948cb;
+}
+.instruciones {
+  background-color: #a6bbd0d8;
 }
