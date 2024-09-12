@@ -75,6 +75,7 @@ body {
   color: #4873ec;
   border: 5px solid #fdf28d;
   margin-bottom: 10px;
+  transition: all 0.3s ease;
 }
 .btn-reempezar {
   font-family: 'Morage';
@@ -86,7 +87,15 @@ body {
   color: #4873ec;
   border-radius: 40%;
   border: 5px solid #fdf28d;
+  transition: all 0.3s ease;
 }
+.btn-empezar:hover,
+.btn-reempezar:hover,
+#playSong:hover {
+  background-color: #fdf28d;
+  transform: scale(1.05);
+}
+
 .puntaciones {
   display: flex;
   flex-direction: column;
@@ -95,12 +104,14 @@ body {
 }
 .contenedorFinal {
   border: 5px solid #fdf28d;
-  width: 500px;
+  padding: 15px 10px;
   height: 50px;
   margin-bottom: 20px;
   border-radius: 20px;
-  background-color: #a6bbd0;
-  margin-bottom: 100px;
+  background-color: #a6bbd09a;
+  height: auto;
+  font-size: 20px;
+  list-style-type: none;
 }
 .paginaGame {
   background-image: url('../image/basic.png');
@@ -165,6 +176,7 @@ h1 {
   background-color: #a6bbd0;
   color: #1948cb;
   z-index: 1;
+  transition: all 0.3s ease;
 }
 .puntos {
   background-color: #5f77b9;
@@ -200,7 +212,7 @@ h1 {
   width: 500px;
   height: 200px;
   border-radius: 67%;
-  background-color: #a6bbd0;
+  background-color: #a6bbd09a;
   border: 5px solid #fdf28d;
 }
 p {

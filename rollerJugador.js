@@ -9,9 +9,7 @@ class Roller {
     this.colisiones = 0
     this.limitUp = false
     this.limitdown = false
-    // al crear el pollito:
 
-    // 1. añadir el pollito al DOM
     this.node = document.createElement('img')
     this.node.src = './image/patinadora.png'
     carretera.append(this.node)

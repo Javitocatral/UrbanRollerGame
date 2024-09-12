@@ -4,6 +4,7 @@ const pantallaFinal = document.querySelector('.paginaFinal')
 const pantallaJuego = document.querySelector('.paginaGame')
 const btnTerminaar = document.querySelector('.btn-reempezar')
 const mySong = document.getElementById('mySong')
+
 btnEmpezar.addEventListener('click', () => {
   pantallaInicio.style.display = 'none'
   pantallaJuego.style.display = 'flex'
@@ -12,6 +13,7 @@ btnEmpezar.addEventListener('click', () => {
   mySong.volume = 0.05
 
   gameStart()
+  recuperarPuntuciones()
 })
 btnTerminaar.addEventListener('click', () => {
   pantallaInicio.style.display = 'flex'
@@ -19,6 +21,7 @@ btnTerminaar.addEventListener('click', () => {
   mySong.pause()
   mySong.currentTime = 0
   puntuarElemento.innerText = `Puntos: 0`
+  recuperarPuntuciones()
 })
 
 const carreteraFondo = {
@@ -103,7 +106,6 @@ function addRecompensa() {
   const espaciadoAdicional = Math.floor(Math.random() * 50)
   let nuevaRecompensa = new Recompensa(randomPositionY + espaciadoAdicional)
   recompensaArray.push(nuevaRecompensa)
-  console.log(recompensaArray)
 }
 
 window.addEventListener('keydown', (event) => {
@@ -199,7 +201,7 @@ const collisionSound = new Audio('./audios/grito.wav')
 function colisonGameOver() {
   obstaculos.forEach((cadaObstaculo, index) => {
     // El 0.3 es la parte frontal y el 0.7 es la parte trasera  el .0.9 es la parte inferios se refiere a los porcentajes
-    console.log(vidas)
+
     if (
       roller.x + roller.w * 0.3 < cadaObstaculo.x + cadaObstaculo.w * 0.7 &&
       roller.x + roller.w * 0.7 > cadaObstaculo.x + cadaObstaculo.w * 0.3 &&
@@ -210,7 +212,6 @@ function colisonGameOver() {
       cambiarImagenJugador()
       obstaculos.splice(index, 1)
       cadaObstaculo.node.remove()
-      console.log(roller.colisiones)
 
       collisionSound.play()
       if (roller.colisiones <= 3) {
@@ -224,7 +225,11 @@ function colisonGameOver() {
     }
   })
 }
+const contenedorPuntos = document.querySelector('.contenedorFinal')
 function gameOver() {
+  // puntos = roller.puntos
+  //nombreDelJugador = cogerNombre()
+  //contenedorPuntos.innerHTML = `<h5 style="margin:0">${nombreDelJugador} .............. puntos:${puntos}</h5>`
   clearInterval(gameIntervalId)
   clearInterval(obastculoIntervalIn)
   pantallaJuego.style.display = 'none'
@@ -232,13 +237,17 @@ function gameOver() {
   carretera.innerHTML = ''
   roller = null
   obstaculos = []
+  guardarLocalStorage()
+  recuperarPuntuciones()
 }
+
 function cogerNombre() {
   const nombreDelJugador = document.querySelector('#inputName').value
 
-  if (nombreDelJugador) {
-    console.log(nombreDelJugador)
+  if (!nombreDelJugador) {
+    return 'Pringao'
   }
+  return nombreDelJugador
 }
 
 const playMusicBtn = document.getElementById('playSong')
@@ -283,4 +292,28 @@ function addVidas() {
     arraVidas.push(imgVida)
   }
 }
+
 addVidas()
+
+function guardarLocalStorage() {
+  let nombre = cogerNombre()
+  let puntosJugador = puntos
+  console.log(puntosJugador)
+
+  let nuevaPuntuacion = { nombre, puntosJugador }
+  console.log('Guardando puntuación:', nuevaPuntuacion)
+  let puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || []
+  puntuaciones.push(nuevaPuntuacion)
+  localStorage.setItem('puntuaciones', JSON.stringify(puntuaciones))
+}
+function recuperarPuntuciones() {
+  contenedorPuntos.innerHTML = ''
+  const puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || []
+  puntuaciones.sort((a, b) => b.puntosJugador - a.puntosJugador)
+  const top5 = puntuaciones.slice(0, 5)
+  top5.forEach((puntuacion) => {
+    const li = document.createElement('li')
+    li.textContent = `${puntuacion.nombre} .......... ${puntuacion.puntosJugador} puntos`
+    contenedorPuntos.appendChild(li)
+  })
+}
