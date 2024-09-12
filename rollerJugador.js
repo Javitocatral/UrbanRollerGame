@@ -36,8 +36,8 @@ class Roller {
     this.node.style.top = `${this.y}px`
     this.node.style.left = `${this.x}px`
   }
-  puntuar() {
-    puntos += 0.5
+  puntuar(num) {
+    puntos += num
     return puntos
   }
 }

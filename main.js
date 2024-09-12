@@ -143,6 +143,20 @@ function detectarObstaculos() {
     }
   }
 }
+let nivelActual = 1
+const puntosPorNivel = 20
+function aumentarNivel() {
+  nivelActual++
+  carreteraFondo.velocidad += 1
+
+  obstaculos.speed += 0.5
+  frecuenciaOstaculo -= 200
+  clearInterval(obastculoIntervalIn)
+  obastculoIntervalIn = setInterval(() => {
+    addObstaculos()
+    addRecompensa()
+  }, frecuenciaOstaculo)
+}
 
 function detectarCrucePuntuar() {
   obstaculos.forEach((cadaObstaculo) => {
@@ -152,18 +166,24 @@ function detectarCrucePuntuar() {
       roller.x < cadaObstaculo.x + cadaObstaculo.w &&
       !cadaObstaculo.yaPuntuo
     ) {
-      roller.puntuar()
+      roller.puntuar(1)
       actualizarPuntosEnPantalla()
       cadaObstaculo.yaPuntuo = true
+      if (roller.puntuar(0) % puntosPorNivel === 0) {
+        aumentarNivel()
+      }
     } else if (
       roller.y > cadaObstaculo.y &&
       roller.x + roller.w > cadaObstaculo.x &&
       roller.x < cadaObstaculo.x + cadaObstaculo.w &&
       !cadaObstaculo.yaPuntuo
     ) {
-      roller.puntuar()
+      roller.puntuar(1)
       actualizarPuntosEnPantalla()
       cadaObstaculo.yaPuntuo = true
+      if (roller.puntuar(0) % puntosPorNivel === 0) {
+        aumentarNivel()
+      }
     }
   })
 }
@@ -185,18 +205,22 @@ function detectarCruces() {
   })
 }
 function detectarRecompensa() {
-  recompensaArray.forEach((cadaRecompesa, index) => {
+  recompensaArray.forEach((cadaRecompesa) => {
     if (
       roller.x + roller.w * 0.3 < cadaRecompesa.x + cadaRecompesa.w * 0.7 &&
       roller.x + roller.w * 0.7 > cadaRecompesa.x + cadaRecompesa.w * 0.3 &&
       roller.y + roller.h * 0.9 < cadaRecompesa.y + cadaRecompesa.h &&
-      roller.y + roller.h > cadaRecompesa.y + cadaRecompesa.h * 0.9
+      roller.y + roller.h > cadaRecompesa.y + cadaRecompesa.h * 0.9 &&
+      !cadaRecompesa.yaPuntuo
     ) {
       cadaRecompesa.node.remove()
-      roller.puntuar()
+      roller.puntuar(2)
+      actualizarPuntosEnPantalla()
+      cadaRecompesa.yaPuntuo = true
     }
   })
 }
+const gameOverSound = new Audio('./audios/gameover.mp3')
 const collisionSound = new Audio('./audios/grito.wav')
 function colisonGameOver() {
   obstaculos.forEach((cadaObstaculo, index) => {
@@ -214,11 +238,13 @@ function colisonGameOver() {
       cadaObstaculo.node.remove()
 
       collisionSound.play()
+
       if (roller.colisiones <= 3) {
         arraVidas[roller.colisiones - 1].remove()
       }
 
       if (roller.colisiones >= 3) {
+        gameOverSound.play()
         gameOver()
         console.log('cataplun')
       }
@@ -266,7 +292,9 @@ playMusicBtn.addEventListener('click', function () {
 const puntuarElemento = document.querySelector('.puntos')
 const actualizarPuntosEnPantalla = () => {
   if (puntuarElemento) {
-    puntuarElemento.innerText = `Puntos:${roller.puntuar()}`
+    puntuarElemento.innerText = `Puntos:${roller.puntuar(
+      0
+    )} - Nivel: ${nivelActual}`
   }
 }
 

@@ -33,6 +33,9 @@ body {
   animation: rebote 2s ease infinite;
   height: auto;
 }
+.rebote:hover {
+  animation: rebote 2s ease infinite, giro-rapido 0.5s linear infinite;
+}
 @keyframes rebote {
   0% {
     transform: translateY(0);
@@ -48,6 +51,14 @@ body {
   }
   100% {
     transform: translateY(0);
+  }
+}
+@keyframes giro-rapido {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -133,6 +144,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  overflow: hidden;
 }
 h1 {
   font-family: 'Morage';
