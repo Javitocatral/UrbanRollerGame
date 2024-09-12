@@ -387,6 +387,6 @@ function reset() {
   obstaculos.forEach((obstaculo) => {
     obstaculo.speed = 4
   })
-  carretera.velocidad = 3
+  carreteraFondo.velocidad = 3
   frecuenciaOstaculo = 1500
 }
