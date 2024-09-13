@@ -13,7 +13,16 @@ El asfalto está lleno de desafíos. Deberás evitar a señoras apresuradas, ni�
 - **Evitar obstáculos:** Deslízate por la ciudad esquivando diversos obstáculos.
 - **Sistema de vidas:** Tres vidas disponibles; el juego termina al perder la tercera vida.
 - **Puntuación:** Puntúas cada vez que evitas un obstáculo. Puntúas el doble si recoges un refresco.
-- **Niveles:** Subes de nivel cada 20 puntos. Al subir de nivel, aumenta la velocidad del juego, la frecuencia de los obstáculos y la velocidad de los obstáculos.
+- **Niveles:** Subes de nivel cada 20 puntos. Al subir de nivel, aumenta la velocidad del juego, la frecuencia de los obstáculos y la velocidad de
+  **Controles:**
+  - **D**: Mover hacia adelante.
+  - **S**: Mover hacia abajo.
+  - **A**: Mover hacia atrás.
+  - **E**: Mover hacia arriba.
+- **HUD (Heads-Up Display):**
+  - **Contador de vidas:** Muestra cuántas vidas quedan.
+  - **Marcador de puntuaciones:** Muestra la puntuación actual del jugador.
+  - **Nivel:** Muestra el nivel actual del juego.los obstáculos.
 
 ## Funcionalidades del Backlog
 
