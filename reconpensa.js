@@ -1,10 +1,10 @@
 class Recompensa {
-  constructor(positionY) {
+  constructor(positionY, velocidad) {
     this.x = carretera.offsetWidth
     this.y = positionY + this.seleccionarTipo()
     this.h = 50
     this.w = 20
-    this.speed = 4
+    this.speed = velocidad
     this.yaPuntuo = false
 
     this.node = document.createElement('img')

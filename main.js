@@ -41,14 +41,6 @@ let obstaculosIntervalId = null
 let gameIntervalId = null
 let recompensaArray = []
 
-//Mover la imgen de fondo
-//hacer el loop unfinito
-//introducir el jugador y hacer el movimiento
-//introducir los obstaculos
-// crear la colision
-//sitema de puntos
-//sistema de niveles
-
 function gameStart() {
   roller = new Roller()
   roller.colisiones = 0
@@ -64,6 +56,7 @@ function gameStart() {
   cogerNombre()
 }
 
+//movimiento de la carretera
 const carretera = document.querySelector('.carretera')
 function moverCarretera() {
   carreteraFondo.x -= carreteraFondo.velocidad
@@ -112,7 +105,10 @@ function addRecompensa() {
       carretera.offsetHeight * 0.5
   )
   const espaciadoAdicional = Math.floor(Math.random() * 50)
-  let nuevaRecompensa = new Recompensa(randomPositionY + espaciadoAdicional)
+  let nuevaRecompensa = new Recompensa(
+    randomPositionY + espaciadoAdicional,
+    velocidadObastaculos
+  )
   recompensaArray.push(nuevaRecompensa)
 }
 //comandos
@@ -293,6 +289,9 @@ function aumentarNivel() {
   obstaculos.forEach((obstaculo) => {
     obstaculo.speed += 1
   })
+  recompensaArray.forEach((cadaReconpensa) => {
+    cadaReconpensa.speed += 1
+  })
 }
 
 const contenedorPuntos = document.querySelector('.contenedorFinal')
@@ -377,6 +376,9 @@ function reset() {
   velocidadObastaculos = 4
   obstaculos.forEach((obstaculo) => {
     obstaculo.speed = 4
+  })
+  recompensaArray.forEach((cadaReconpensa) => {
+    cadaReconpensa.speed += 1
   })
   carreteraFondo.velocidad = 3
   frecuenciaObstaculo = 1500
