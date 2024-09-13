@@ -53,4 +53,4 @@ El asfalto está lleno de desafíos. Deberás evitar a señoras apresuradas, ni�
 
 ## Agradecimientos
 
-Un agradecimiento especial a **Sala 12** por las risas, los consejos y el increíble apoyo. ¡Ha sido un soporte magnífico y esencial para el desarrollo de este proyecto!\*
+Un agradecimiento especial a **Sala 12** por las risas, los consejos y el increíble apoyo. ¡Ha sido un soporte magnífico y esencial para el desarrollo de este proyecto!
