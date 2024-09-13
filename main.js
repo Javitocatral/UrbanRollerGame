@@ -236,7 +236,7 @@ function colisonGameOver() {
 
       if (roller.colisiones >= 3) {
         gameOverSound.play()
-        gameOverSound.volume = 0.05
+        gameOverSound.volume = 0.07
         gameOver()
         console.log('cataplun')
       }
@@ -278,7 +278,7 @@ function aumentarNivel() {
   nivelActual++
   carreteraFondo.velocidad += 1
 
-  frecuenciaObstaculo -= 150
+  frecuenciaObstaculo -= 200
   velocidadObastaculos += 1
 
   clearInterval(obstaculosIntervalId)
