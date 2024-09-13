@@ -28,6 +28,8 @@ class Ostaculos {
       './image/perro.png',
       './image/nino.png',
       './image/caca.png',
+      './image/basura.png',
+      './image/gato.png',
     ]
     return imagenesObstaculos[
       Math.floor(Math.random() * imagenesObstaculos.length)
