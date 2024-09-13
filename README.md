@@ -23,6 +23,9 @@ El asfalto está lleno de desafíos. Deberás evitar a señoras apresuradas, ni�
   - **Contador de vidas:** Muestra cuántas vidas quedan.
   - **Marcador de puntuaciones:** Muestra la puntuación actual del jugador.
   - **Nivel:** Muestra el nivel actual del juego.los obstáculos.
+    **Efectos de colisión:**
+  - **Explosión visual:** Cuando el jugador choca con un obstáculo, se muestra una animación de explosión durante 1 segundo. La explosión se crea mediante una imagen animada en CSS que se escala y desvanecida gradualmente.
+  - **Sonido de colisión:** Se reproduce un sonido de explosión para alertar al jugador del choque. El sonido se reproduce cada vez que ocurre una colisión.
 
 ## Funcionalidades del Backlog
 
