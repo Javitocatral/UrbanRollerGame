@@ -1,10 +1,10 @@
 class Ostaculos {
-  constructor(positionY) {
+  constructor(positionY, velodidad) {
     this.x = carretera.offsetWidth
     this.y = positionY + this.seleccionarTipo()
     this.h = 250
     this.w = 200
-    this.speed = 4
+    this.speed = velodidad
     this.yaPuntuo = false
 
     this.node = document.createElement('img')

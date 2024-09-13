@@ -6,6 +6,7 @@ const btnTerminaar = document.querySelector('.btn-reempezar')
 const mySong = document.getElementById('mySong')
 let nivelActual = 1
 const puntosPorNivel = 20
+let velocidadObastaculos = 4
 
 btnEmpezar.addEventListener('click', () => {
   pantallaInicio.style.display = 'none'
@@ -98,7 +99,10 @@ function addObstaculos() {
       carretera.offsetHeight * 0.4
   )
   const espaciadoAdicional = Math.floor(Math.random() * 100)
-  let nuevoObastaculo = new Ostaculos(randomPositionY + espaciadoAdicional)
+  let nuevoObastaculo = new Ostaculos(
+    randomPositionY + espaciadoAdicional,
+    velocidadObastaculos
+  )
   obstaculos.push(nuevoObastaculo)
   obstaculoAlternator++
 }
@@ -155,28 +159,16 @@ function detectarObstaculos() {
 function detectarCrucePuntuar() {
   obstaculos.forEach((cadaObstaculo) => {
     if (
-      roller.y < cadaObstaculo.y &&
       roller.x + roller.w > cadaObstaculo.x &&
       roller.x < cadaObstaculo.x + cadaObstaculo.w &&
+      roller.y + roller.h > cadaObstaculo.y &&
+      roller.y < cadaObstaculo.y + cadaObstaculo.h &&
       !cadaObstaculo.yaPuntuo
     ) {
       roller.puntuar(1)
       actualizarPuntosEnPantalla()
       cadaObstaculo.yaPuntuo = true
-      if (puntos % puntosPorNivel === 0) {
-        aumentarNivel()
-      }
-    } else if (
-      roller.y > cadaObstaculo.y &&
-      roller.x + roller.w > cadaObstaculo.x &&
-      roller.x < cadaObstaculo.x + cadaObstaculo.w &&
-      !cadaObstaculo.yaPuntuo
-    ) {
-      roller.puntuar(1)
-      console.log(puntos)
-      actualizarPuntosEnPantalla()
-      cadaObstaculo.yaPuntuo = true
-      if (puntos % puntosPorNivel === 0) {
+      if (puntos >= nivelActual * puntosPorNivel) {
         aumentarNivel()
       }
     }
@@ -184,15 +176,17 @@ function detectarCrucePuntuar() {
 }
 //Cruces
 function detectarCruces() {
+  const mitadAlturaRoller = roller.y + roller.h / 2
   obstaculos.forEach((cadaObstaculo) => {
+    const mitadAlturaObstaculo = cadaObstaculo.y + cadaObstaculo.h / 2
     if (
-      roller.y < cadaObstaculo.y &&
+      mitadAlturaRoller < mitadAlturaObstaculo &&
       roller.x + roller.w > cadaObstaculo.x &&
       roller.x < cadaObstaculo.x + cadaObstaculo.w
     ) {
       roller.node.style.zIndex = 0
     } else if (
-      roller.y > cadaObstaculo.y &&
+      mitadAlturaRoller > mitadAlturaObstaculo &&
       roller.x + roller.w > cadaObstaculo.x &&
       roller.x < cadaObstaculo.x + cadaObstaculo.w
     ) {
@@ -287,18 +281,18 @@ function recuperarPuntuciones() {
 function aumentarNivel() {
   nivelActual++
   carreteraFondo.velocidad += 1
-  let velocidadObstaculo = obstaculos.map((obstaculo) => {
-    obstaculo.speed += 1
-    return obstaculo
-  })
-  velocidadObstaculo
-  frecuenciaObstaculo -= 200
-  clearInterval(obstaculosIntervalId)
 
+  frecuenciaObstaculo -= 150
+  velocidadObastaculos += 1
+
+  clearInterval(obstaculosIntervalId)
   obstaculosIntervalId = setInterval(() => {
-    addObstaculos()
     addRecompensa()
+    addObstaculos()
   }, frecuenciaObstaculo)
+  obstaculos.forEach((obstaculo) => {
+    obstaculo.speed += 1
+  })
 }
 
 const contenedorPuntos = document.querySelector('.contenedorFinal')
@@ -380,6 +374,7 @@ function reset() {
   obstaculos = []
   recompensaArray = []
   nivelActual = 1
+  velocidadObastaculos = 4
   obstaculos.forEach((obstaculo) => {
     obstaculo.speed = 4
   })

@@ -21,7 +21,7 @@ body {
   background-repeat: no-repeat;
   gap: 15px;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   position: relative;
 }
 .paginaFinal {
@@ -265,7 +265,7 @@ h2 {
   left: -150px;
   z-index: 1;
   opacity: 0.8;
-  animation: moveRandom 5s infinite;
+  animation: moveRandom 10s infinite;
 }
 
 @keyframes moveRandom {
