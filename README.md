@@ -48,7 +48,7 @@ El asfalto está lleno de desafíos. Deberás evitar a señoras apresuradas, ni�
 
 ## Additional Links
 
-- **Slides:** [Link](https://docs.google.com/presentation/d/1ZqxDbBjvd7DaCkKA488CwPreakvaSAIzbJbbcmvSTOs/edit?usp=sharing)
+- **Slides:** [Link](https://docs.google.com/presentation/d/1ZqxDbBjvd7DaCkKA488CwPreakvaSAIzbJbbcmvSTOs/edit#slide=id.g2ffcaade96a_0_7)
 - **Deploy:** [Link](https://javitocatral.github.io/UrbanRollerGame/)
 
 ## Agradecimientos
